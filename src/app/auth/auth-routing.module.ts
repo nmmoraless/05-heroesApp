@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 
-const routs: Routes = [
+const routes: Routes = [
   {
     path: '',
     children: [
@@ -25,7 +25,7 @@ const routs: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forChild( routs )
+    RouterModule.forChild( routes )
   ],
   exports: [
     RouterModule
