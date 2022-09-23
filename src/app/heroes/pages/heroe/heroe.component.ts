@@ -28,6 +28,11 @@ export class HeroeComponent implements OnInit {
 
     this.paramsUrlID = this.activateRoute.snapshot.params['id'];
   
+    this.obtenerHeroe();
+  
+  }
+
+  obtenerHeroe(){
     this.heroesService.getHeroePorId( this.paramsUrlID ).subscribe(
       {
         next: data => {
@@ -37,7 +42,6 @@ export class HeroeComponent implements OnInit {
         alert(error.message);
       }
     });
-  
   }
 
   regresar():void {
@@ -45,3 +49,5 @@ export class HeroeComponent implements OnInit {
   }
 
 }
+
+
