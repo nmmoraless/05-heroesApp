@@ -7,7 +7,12 @@ import { HeroesService } from '../../services/heroes.service';
 @Component({
   selector: 'app-agregar',
   templateUrl: './agregar.component.html',
-  styles: [
+  styles: [`
+    img {
+      width: 100%;
+      border-radius: 5px;
+    }
+  `
   ]
 })
 export class AgregarComponent implements OnInit {
@@ -28,6 +33,10 @@ export class AgregarComponent implements OnInit {
   constructor(private heroesService: HeroesService, private activedRoute: ActivatedRoute,  private router: Router) { }
 
   ngOnInit(): void { 
+
+    if(!this.router.url.includes('editar')){
+      return;
+    }
     this.activedRoute.params.pipe(
       switchMap( ({id}) => this.heroesService.getHeroePorId( id ) )
     ).subscribe ( heroe => {
@@ -53,6 +62,13 @@ export class AgregarComponent implements OnInit {
         this.router.navigate(['/heroes/listado']);        
         });
     }
+  }
+
+  public eliminar(heroe: HeroeDTO){
+    this.heroesService.eliminarHeroe(heroe.id).subscribe( resp => {
+      alert(`El héroe ${heroe.superhero}, ha sido eliminado exitosamente`);
+      this.router.navigate(['/heroes/listado']); 
+    })
   }
 }
 ///////////////////CONTINUAR EN VIDEO 210

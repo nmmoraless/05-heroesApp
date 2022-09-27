@@ -1,5 +1,4 @@
 <div *ngIf="heroe.id"></div>
-<h1>Nuevo Héroe <small>{{heroe.superhero}}</small></h1>
 <div *ngIf="heroe.id; then editar else crear"></div>
 <ng-template #editar><h1>Editar Héroe <small>{{heroe.superhero}}</small></h1></ng-template>
 <ng-template #crear><h1>Nuevo Héroe <small>{{heroe.superhero}}</small></h1></ng-template>
@@ -69,13 +68,24 @@
         </mat-form-field>
 
         <br>
+        <div fxLayout>
+            <button mat-raised-button 
+                    color="accent"
+                    (click)="guardar()">
+                <mat-icon>edit</mat-icon>
+                Guardar
+            </button>
 
-        <button mat-raised-button 
-                color="warn"
-                (click)="guardar()">
-            <mat-icon>edit</mat-icon>
-            Guardar
-        </button>
+            <span class="spacer"></span>
+            
+            <button *ngIf="heroe.id"
+                    mat-raised-button
+                    color="warn"
+                    (click)="eliminar(heroe)">
+                <mat-icon>remove</mat-icon>
+                Borrar
+            </button>
+        </div>
 
     </div>
 
