@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { ConfirmarComponent } from '../../components/confirmar/confirmar.component';
 import { HeroeDTO } from '../../interfaces/heroe.interface';
 import { HeroesService } from '../../services/heroes.service';
 
@@ -30,7 +33,11 @@ export class AgregarComponent implements OnInit {
 
   public heroe: HeroeDTO = new HeroeDTO();
 
-  constructor(private heroesService: HeroesService, private activedRoute: ActivatedRoute,  private router: Router) { }
+  constructor(private heroesService: HeroesService, 
+              private activedRoute: ActivatedRoute,  
+              private router: Router,
+              private snackBar: MatSnackBar,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void { 
 
@@ -51,24 +58,45 @@ export class AgregarComponent implements OnInit {
     if(this.heroe.id){
       this.heroesService.actualizarHeroe(this.heroe).subscribe( heroe => {
         console.log('Respuesta', heroe); 
-        alert(`Héreoe actualizado exitosamente`) ;
+        this.mostarSnackBar('Héreoe actualizado exitosamente');
         this.router.navigate(['/heroes/listado']);
       })
     } else {
       this.heroesService.agregarHeroe(this.heroe)
         .subscribe( data => {
           console.log('Respuesta', data);
-          alert(`Héreoe creado exitosamente`) ;
+            this.mostarSnackBar('Héreoe creado exitosamente');
         this.router.navigate(['/heroes/listado']);        
         });
     }
   }
 
   public eliminar(heroe: HeroeDTO){
-    this.heroesService.eliminarHeroe(heroe.id).subscribe( resp => {
-      alert(`El héroe ${heroe.superhero}, ha sido eliminado exitosamente`);
-      this.router.navigate(['/heroes/listado']); 
-    })
+
+    const dialog =  this.dialog.open( ConfirmarComponent, {
+      width: '250px',
+      data: {...heroe}
+    });
+
+    dialog.afterClosed().subscribe(
+      (result) => {
+        if(result){
+          this.heroesService.eliminarHeroe(heroe.id).subscribe( resp => {
+            this.mostarSnackBar(`El héroe ${heroe.superhero}, ha sido eliminado exitosamente`);
+            this.router.navigate(['/heroes/listado']); 
+          });
+        } else {
+          return;
+        }
+      }
+    )
+
+  }
+
+  public mostarSnackBar( mensaje: string ){
+    this.snackBar.open( mensaje, 'Ok!', {
+      duration: 2500
+    });
   }
 }
 ///////////////////CONTINUAR EN VIDEO 210

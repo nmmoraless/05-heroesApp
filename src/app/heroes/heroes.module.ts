@@ -11,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ListadoComponent } from './pages/listado/listado.component';
 import { HeroeTarjetaComponent } from './components/heroeTarjeta/heroeTarjeta.component';
 import { RutaImagenPipe } from './pipes/ruta-imagen.pipe';
+import { ConfirmarComponent } from './components/confirmar/confirmar.component';
 
 
 
@@ -22,7 +23,8 @@ import { RutaImagenPipe } from './pipes/ruta-imagen.pipe';
     HomeComponent,
     ListadoComponent,
     HeroeTarjetaComponent,
-    RutaImagenPipe
+    RutaImagenPipe,
+    ConfirmarComponent
   ],
   imports: [
     CommonModule,
