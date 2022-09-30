@@ -18,7 +18,9 @@ export class LoginComponent {
     this.authService.login()
       .subscribe ( resp => {
         if( resp.id ) {
-          this.router.navigate(['./heroes']);          
+          this.router.navigate(['./heroes']);   
+          console.log('Hola soy el servicio de login desde login ts');
+              
         }
       })
 
